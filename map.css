@@ -1,0 +1,92 @@
+html, body {
+  margin: 0;
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Header styling for slider controls */
+header {
+  display: flex;
+  gap: 1em;
+  align-items: baseline;
+  width: 100%;
+  max-width: 80em;
+  margin-bottom: 1em;
+}
+
+header label {
+  margin-left: auto;
+}
+
+header time,
+header em {
+  display: block;
+}
+
+/* Map container and SVG overlay */
+#map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  flex: 1;
+}
+
+#map svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Define base colors as CSS variables */
+:root {
+  --color-departures: steelblue;
+  --color-arrivals: darkorange;
+}
+
+/* Style circles with dynamic fill color using CSS variable */
+#map svg circle {
+  pointer-events: auto !important;
+  /* Use the custom property --departure-ratio to mix colors:
+     The CSS color-mix() function blends the departure color and arrival color.
+     Adjust calc(100% * var(--departure-ratio)) to weight the blend. */
+  --color: color-mix(
+    in oklch,
+    var(--color-departures) calc(100% * var(--departure-ratio)),
+    var(--color-arrivals)
+  );
+  fill: var(--color);
+}
+
+/* Legend styling */
+.legend {
+  display: flex;
+  gap: 1px;
+  margin-block: 1em;
+  width: 100%;
+  max-width: 80em;
+}
+
+.legend > div {
+  flex: 1;
+  padding: 0.5em 1em;
+  text-align: center;
+  /* Use the same color-mix logic for legend swatches */
+  --color: color-mix(
+    in oklch,
+    var(--color-departures) calc(100% * var(--departure-ratio)),
+    var(--color-arrivals)
+  );
+  background: var(--color);
+  color: white;
+}
